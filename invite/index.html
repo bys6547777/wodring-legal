@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WODRING 초대장 🐥</title>
+<!-- 카카오톡·인스타 등 링크 미리보기(OG) — 이미지가 있어야 카드로 예쁘게 뜬다. 절대 URL 필수. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="WODRING 와드링">
+<meta property="og:title" content="WODRING 초대 | 같이 기록해요!">
+<meta property="og:description" content="크로스핏 WOD 기록 앱 와드링. 친구 코드로 가입하면 환영 프로틴을 받아요 🥤">
+<meta property="og:image" content="https://bys6547777.github.io/wodring-legal/invite/card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://bys6547777.github.io/wodring-legal/invite/">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;background:#F6F3EC;color:#1E1B14;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+  .card{width:100%;max-width:360px;background:#fff;border-radius:22px;padding:26px 22px 24px;text-align:center;box-shadow:0 12px 34px rgba(30,27,20,.13)}
+  .chiki{width:118px;margin:0 auto 6px;display:block}
+  h1{font-size:21px;letter-spacing:-.4px;margin-bottom:6px}
+  .lead{font-size:14.5px;color:#5A564C;line-height:1.55}
+  .codebox{margin:18px 0 6px;background:#F6F3EC;border-radius:14px;padding:14px 10px}
+  .codelabel{font-size:11.5px;color:#8C877A;font-weight:700;letter-spacing:.06em}
+  .code{font-size:30px;font-weight:800;letter-spacing:7px;margin-top:4px}
+  .hint{font-size:12.5px;color:#8C877A;line-height:1.5;margin-top:8px}
+  .btn{display:block;width:100%;margin-top:10px;padding:15px 0;border:none;border-radius:14px;font-size:15.5px;font-weight:700;text-decoration:none;cursor:pointer;font-family:inherit}
+  .red{background:#E5462F;color:#fff}
+  .soft{background:#F1F0EC;color:#1E1B14}
+  .foot{margin-top:16px;font-size:11.5px;color:#B4AF9F;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="card">
+  <img class="chiki" src="chiki.png" alt="치키">
+  <h1>🐥 WODRING 초대장</h1>
+  <p class="lead">크로스핏 기록 앱 <b>와드링</b>에<br>초대받았어요!</p>
+
+  <div class="codebox" id="codebox" style="display:none">
+    <div class="codelabel">친구 코드</div>
+    <div class="code" id="code"></div>
+  </div>
+  <p class="hint" id="hint">앱을 설치하고 가입할 때<br>친구 코드를 입력하면 환영 프로틴을 받아요 🥤</p>
+
+  <a class="btn red" id="open" href="wodringapp://">앱 열기</a>
+  <a class="btn soft" id="store" href="https://play.google.com/store/apps/details?id=com.wodring.app">앱 설치하기</a>
+  <button class="btn soft" id="copy" style="display:none">친구 코드 복사</button>
+
+  <p class="foot">이미 앱이 있으면 [앱 열기],<br>없으면 [앱 설치하기]를 눌러주세요.</p>
+</div>
+<script>
+(function () {
+  // 친구 코드는 ?c= 로 전달 — 정적 페이지라 표시는 JS가 한다(형식 밖 문자는 버림).
+  var m = /[?&]c=([A-Za-z0-9]{1,8})/.exec(location.search);
+  var code = m ? m[1].toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6) : '';
+  var ios = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+  var IOS = 'https://apps.apple.com/kr/app/id6786224983';
+  var AND = 'https://play.google.com/store/apps/details?id=com.wodring.app';
+  document.getElementById('store').href = ios ? IOS : AND;
+
+  if (code) {
+    document.getElementById('code').textContent = code;
+    document.getElementById('codebox').style.display = 'block';
+    var btn = document.getElementById('copy');
+    btn.style.display = 'block';
+    btn.onclick = function () {
+      if (navigator.clipboard) navigator.clipboard.writeText(code).then(function () { btn.textContent = '복사됨 ✓'; });
+    };
+    try { localStorage.setItem('wodring_invite_code', code); } catch (e) {}
+  }
+  // 앱이 깔려 있으면 바로 열리고, 아니면 그대로 이 화면에 남는다(스토어 자동 이동은 카톡 브라우저에서 오작동이 잦아 버튼으로).
+  document.getElementById('open').addEventListener('click', function () {
+    setTimeout(function () { if (!document.hidden) location.href = ios ? IOS : AND; }, 1500);
+  });
+})();
+</script>
+</body>
+</html>
